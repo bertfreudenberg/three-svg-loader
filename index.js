@@ -46,6 +46,8 @@ THREE.SVGLoader.prototype = {
 
 	parse: function ( text ) {
 
+		var scope = this;
+
 		function parseNode( node, style ) {
 
 			if ( node.nodeType !== 1 ) return;
@@ -99,7 +101,7 @@ THREE.SVGLoader.prototype = {
 					break;
 
 				default:
-					console.log( node );
+					if (scope.logging) console.log( node );
 
 			}
 
@@ -986,7 +988,7 @@ THREE.SVGLoader.prototype = {
 
 		//
 
-		console.log( 'THREE.SVGLoader' );
+		if (scope.logging) console.log( 'THREE.SVGLoader' );
 
 		var paths = [];
 
@@ -999,20 +1001,20 @@ THREE.SVGLoader.prototype = {
 
 		var currentTransform = new THREE.Matrix3();
 
-		console.time( 'THREE.SVGLoader: DOMParser' );
+		if (scope.logging) console.time( 'THREE.SVGLoader: DOMParser' );
 
 		var xml = new DOMParser().parseFromString( text, 'image/svg+xml' ); // application/xml
 
-		console.timeEnd( 'THREE.SVGLoader: DOMParser' );
+		if (scope.logging) console.timeEnd( 'THREE.SVGLoader: DOMParser' );
 
-		console.time( 'THREE.SVGLoader: Parse' );
+		if (scope.logging) console.time( 'THREE.SVGLoader: Parse' );
 
 		parseNode( xml.documentElement, { fill: '#000' } );
 
 		// console.log( paths );
 
 
-		console.timeEnd( 'THREE.SVGLoader: Parse' );
+		if (scope.logging) console.timeEnd( 'THREE.SVGLoader: Parse' );
 
 		return paths;
 
